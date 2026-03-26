@@ -1,0 +1,48 @@
+truthguard-ai/
+│
+├── benchmarks/
+│   ├── geometry/
+│   │   ├── tasks.json
+│   │   ├── evaluator.py
+│   │
+│   ├── hallucination/
+│
+├── notebooks/
+│   ├── CGS_v6_demo.ipynb
+│
+├── results/
+│   ├── leaderboard.csv
+│
+├── src/
+│   ├── scoring.py
+│   ├── utils.py
+│
+├── README.md
+├── requirements.txt
+[
+  {
+    "id": 1,
+    "question": "Is this triangle valid given these angles?",
+    "type": "geometry",
+    "answer": "No",
+    "reasoning_required": true
+  },
+  {
+    "id": 2,
+    "question": "Does this dataset contradict itself?",
+    "type": "consistency",
+    "answer": "Yes"
+  }
+]
+def evaluate(predictions, ground_truth):
+    correct = 0
+    for p, g in zip(predictions, ground_truth):
+        if p.strip().lower() == g.strip().lower():
+            correct += 1
+    return correct / len(ground_truth)
+def cognitive_geometry_score(acc, reasoning_penalty):
+    return acc * (1 - reasoning_penalty)
+model,CGS,accuracy
+GPT-4,0.82,0.90
+Claude,0.78,0.88
+Baseline,0.55,0.70
